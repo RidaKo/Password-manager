@@ -2,8 +2,20 @@ from tkinter import *
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+#site: str, user: str, psw: str
+def save() ->None:
+    site, user, psw = get_strings()
+    print("Why")
+    with open("data.txt", "a") as data:
+        data.write(f"{site} | {user} | {psw} \n")
+    website_entry.delete(0 ,END)
+    password_entry.delete(0, END)
+
 
 # ---------------------------- UI SETUP ------------------------------- #
+
+
+
 
 window = Tk()
 screen = Canvas()
@@ -20,7 +32,7 @@ window.rowconfigure(3)
 # Canvas creation
 canvas = Canvas(window)
 canvas.grid(column=1, row=0,pady=20 ,sticky = "W")
-canvas.config(height=200, width=200, background='gray')
+canvas.config(height=200, width=200)
 # create an image
 my_photo = PhotoImage(file= "E:\Git\password-manager-start\logo.png")
 canvas.create_image(100,100, image = my_photo)
@@ -51,5 +63,19 @@ password_entry.grid(column=1, row=3,sticky = "W")
 gen_password_button.grid(column=2, row=3, sticky="W")
 add_button.grid(column=1, row=4, columnspan=2 ,sticky="W")
 
+website_entry.focus()
+user_entry.insert(0, "email@gmail.com")
+
+# Taking out the strings
+def get_strings():
+
+    site = website_entry.get()
+    user = user_entry.get()
+    psw = password_entry.get()
+    return site, user, psw
+
+
+# Configuring button commands
+add_button.config(command=save)
 
 window.mainloop()
