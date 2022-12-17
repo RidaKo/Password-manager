@@ -1,20 +1,33 @@
 from tkinter import *
+from tkinter import messagebox
+from pass_gen import make_pass
+import pyperclip
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def create_password() -> None:
+    password = make_pass()
+    password_entry.delete(first=0, last=len(password_entry.get()))
+    password_entry.insert(0, password)
+
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 #site: str, user: str, psw: str
 def save() ->None:
     site, user, psw = get_strings()
-    print("Why")
-    with open("data.txt", "a") as data:
-        data.write(f"{site} | {user} | {psw} \n")
-    website_entry.delete(0 ,END)
-    password_entry.delete(0, END)
+    if len(site) ==0 or len(psw)==0:
+        messagebox.askretrycancel(title="Oops", message=f"Please don't leave any fields empty!")
+    else:    
+        confirmation = messagebox.askokcancel(title=site, message=f"These are the details you have entered:\n"
+        f" Email: {user}\n Pasword: {psw}\n Do you wish to continue?")
+        if confirmation == True:
+            with open("data.txt", "a") as data:
+                data.write(f"{site} | {user} | {psw} \n")
+            website_entry.delete(0 ,END)
+            password_entry.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
 
-
+password = ""
 
 
 window = Tk()
@@ -77,5 +90,6 @@ def get_strings():
 
 # Configuring button commands
 add_button.config(command=save)
+gen_password_button.config(command=create_password)
 
 window.mainloop()
