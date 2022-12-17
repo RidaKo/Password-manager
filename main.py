@@ -7,6 +7,7 @@ def create_password() -> None:
     password = make_pass()
     password_entry.delete(first=0, last=len(password_entry.get()))
     password_entry.insert(0, password)
+    pyperclip.copy(password)
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
